@@ -1,0 +1,7 @@
+print('Welcome to Tip Calculator')
+amt = float(input('Enter the bill amount to pay \n'))
+val = int(input('Enter the percent you want to tip \n'))
+num = int(input('Tell me the number of people to split \n'))
+amt = amt+(amt*val*0.01)
+per = round(amt/num,2)
+print('Each person would pay', per)
