@@ -49,7 +49,7 @@ def call_openrouter_api(api_key, prompt):
     data = {
         "model": "nvidia/llama-3.1-nemotron-ultra-253b-v1:free",
         "messages": [{"role": "user", "content": prompt}],
-        "max_tokens": 500,
+        "max_tokens": 2000,
         "temperature": 0.2
     }
     try:
