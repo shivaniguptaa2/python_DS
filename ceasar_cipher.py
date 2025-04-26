@@ -28,7 +28,7 @@ print('Welcome to Ceaser_cipher')
 while(val == 'yes'):
     code = input('Choose E for encoding or D for decoding your message: ').lower()
     text = input("Enter the Word: ").lower()
-    shift = int(input("Tell me with my the number for shift: "))
+    shift = int(input("Tell me the number for shift: "))
     match code:
         case 'e':
             encode(text,shift)
