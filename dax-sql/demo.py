@@ -2,29 +2,27 @@ import streamlit as st
 import requests
 import os
 import toml
+import google.generativeai as genai
 
 # Constants
 SECRETS_PATH = r"E:\python_DS\dax-sql\.streamlit\secrets.toml"
-OPENROUTER_API_URL = "https://api.openrouter.ai/v1/chat/completions"  # Updated URL
+OPENROUTER_API_URL = "https://api.openrouter.ai/v1/chat/completions"
 
-def load_api_key():
-    """Load the API key from secrets.toml or environment variables."""
+# === Load Keys ===
+def load_keys():
     if os.path.exists(SECRETS_PATH):
         secrets = toml.load(SECRETS_PATH)
-        return secrets.get("OPENROUTER_API_KEY")
-    return os.getenv("OPENROUTER_API_KEY")
+        return {
+            "gemini": secrets.get("GEMINI_API_KEY"),
+            "openrouter": secrets.get("OPENROUTER_API_KEY")
+        }
+    return {
+        "gemini": os.getenv("GEMINI_API_KEY"),
+        "openrouter": os.getenv("OPENROUTER_API_KEY")
+    }
 
-def validate_api_key(api_key):
-    """Validate the API key and stop execution if missing or invalid."""
-    if not api_key:
-        st.error("API key for OpenRouter is missing. Please set it in the secrets.toml file or as an environment variable.")
-        st.stop()
-    if not isinstance(api_key, str) or len(api_key.strip()) == 0:
-        st.error("Invalid API key format. Please check your API key.")
-        st.stop()
-
+# === Prompt Builder ===
 def build_prompt(dax_input):
-    """Build the prompt for the OpenRouter API."""
     return f"""
 You are an expert in DAX and SQL.
 
@@ -40,8 +38,19 @@ Please:
 Be concise and helpful.
 """
 
+# === Gemini Handler ===
+def call_gemini_api(api_key, prompt):
+    try:
+        genai.configure(api_key=api_key)
+        model = genai.GenerativeModel("gemini-pro")
+        response = model.generate_content(prompt)
+        return response.text.strip()
+    except Exception as e:
+        st.error(f"Gemini error: {e}")
+        return None
+
+# === OpenRouter Handler ===
 def call_openrouter_api(api_key, prompt):
-    """Call the OpenRouter API with the given prompt."""
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json"
@@ -55,49 +64,40 @@ def call_openrouter_api(api_key, prompt):
     try:
         response = requests.post(OPENROUTER_API_URL, headers=headers, json=data, timeout=10)
         response.raise_for_status()
-        return response.json()
-    except requests.exceptions.ConnectionError:
-        st.error("A connection error occurred. Please check your internet connection or DNS settings.")
-    except requests.exceptions.HTTPError as e:
-        st.error(f"HTTP error occurred: {e.response.status_code} - {e.response.reason}")
+        return response.json().get('choices', [{}])[0].get('message', {}).get('content', '').strip()
     except requests.exceptions.RequestException as e:
-        st.error(f"An error occurred while connecting to the API: {e}")
-    return None
+        st.error(f"OpenRouter error: {e}")
+        return None
 
-def display_result(response_json):
-    """Display the result from the API response."""
-    if response_json:
-        result = response_json.get('choices', [{}])[0].get('message', {}).get('content', '').strip()
-        if result:
-            st.markdown("### 💬 Result")
-            st.markdown(result)
-        else:
-            st.error("The API response was successful but did not contain any result. Please verify your input or try again later.")
-    else:
-        st.error("Failed to retrieve a valid response from the API.")
-
+# === Main App ===
 def main():
-    """Main function to run the Streamlit app."""
-    st.title("🧠 DAX to SQL Translator + Explainer using OpenRouter")
-    st.markdown("""
-    Paste any DAX expression below and get:
-    - A plain English explanation
-    - An SQL translation (if possible)
-    - Any context-related warnings
-    """)
+    st.title("🧠 DAX to SQL Translator + Explainer")
+    st.markdown("Paste any DAX formula to get its explanation and SQL translation.")
 
-    api_key = load_api_key()
-    validate_api_key(api_key)
+    # Model Selector
+    model_choice = st.selectbox("🧪 Choose Model", ["Gemini", "OpenRouter"])
+    keys = load_keys()
+    api_key = keys.get(model_choice.lower())
 
-    dax_input = st.text_area("🔤 Enter your DAX formula here", height=200)
+    if not api_key:
+        st.error(f"{model_choice} API key missing. Please set it in the secrets.toml or as env variable.")
+        st.stop()
+
+    dax_input = st.text_area("🔤 Enter your DAX formula", height=200)
 
     if st.button("🧠 Translate & Explain") and dax_input.strip():
         with st.spinner("Thinking..."):
             prompt = build_prompt(dax_input)
-            response_json = call_openrouter_api(api_key, prompt)
-            display_result(response_json)
-    else:
-        st.caption("👆 Enter DAX and click the button to begin.")
+            if model_choice == "Gemini":
+                result = call_gemini_api(api_key, prompt)
+            else:
+                result = call_openrouter_api(api_key, prompt)
+
+            if result:
+                st.markdown("### 💬 Result")
+                st.markdown(result)
+            else:
+                st.error("No response received. Please try again.")
 
 if __name__ == "__main__":
     main()
