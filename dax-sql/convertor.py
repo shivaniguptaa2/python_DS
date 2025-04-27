@@ -28,7 +28,6 @@ Given the following DAX formula:
 Please:
 1. Explain in plain English what this DAX measure or expression is doing.
 2. Translate it to a SQL equivalent query, assuming relational database structure.
-3. Point out any limitations where SQL can't fully mimic DAX behavior, especially due to evaluation or filter context.
 
 Be concise and helpful.
 """
@@ -117,3 +116,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# streamlit run dax-sql/convertor.py
