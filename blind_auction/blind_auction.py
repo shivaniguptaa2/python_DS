@@ -3,7 +3,7 @@ from items import artwork
 
 more = True
 bidder = {}
-n = random.randint(1,7)  # Fixed to select a random artwork from the list
+n = random.randint(0,6)  # Fixed to select a random artwork from the list
 art = artwork[n]["art"]
 cost = artwork[n]["cost"]  # Added to get the cost of the selected artwork
 print('Welcome to Blind Auction')
