@@ -41,7 +41,7 @@ def call_mistral_api(api_key, model, prompt):
     data = {
         "model": model,
         "messages": [{"role": "user", "content": prompt}],
-        "max_tokens": 2000,
+        "max_tokens": 20000,
         "temperature": 0.2
     }
     try:
@@ -112,7 +112,7 @@ def main():
             st.error("No response received. Please try again.")
 
     st.markdown("---")
-    st.caption("Made with ❤️ using Mistral AI")
+    st.caption("Made with ❤️ by Shivani!")
 
 if __name__ == "__main__":
     main()
