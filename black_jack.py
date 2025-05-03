@@ -76,11 +76,17 @@ def play_game():
     print('Opponent final hand : ',computer_card, 'Final Score: ',computer_score)
     print(compare(player_score,computer_score))
 
-while input("Do you want to play BlackJack. Type 'Y' or 'N'  ") == 'y' or 'Y':
-    print("\n" * 20)
-    play_game()
-else:
-    exit()
+while True:
+    play_again = input("Do you want to play BlackJack? Type 'Y' or 'N': ").strip().lower()
+    if play_again == 'y':
+        print("\n" * 20)
+        play_game()
+    elif play_again == 'n':
+        print("Thanks for playing BlackJack!")
+        break
+    else:
+        print("Invalid input. Please type 'Y' or 'N'.")
+
 
 
 
