@@ -5,7 +5,7 @@ import random
 tim = t.Turtle()
 t.colormode(255)
 tim.speed('fastest')
-tim.pensize(5)
+tim.pensize(2)
 
 def random_colors():
     r = random.randint(0,255)
@@ -14,12 +14,13 @@ def random_colors():
     rgb = (r,g,b)
     return rgb
 
-for i in range(40):
-    tim.color(random_colors())
-    tim.circle(100)
-    poc = tim.heading()
-    tim.setheading(poc+10)
+def draw_spirogarph(size_of_gap):
+    for i in range(int(360/size_of_gap)):
+        tim.color(random_colors())
+        tim.circle(100)
+        tim.setheading(tim.heading() +size_of_gap)
 
+draw_spirogarph(5)
 
 
 
