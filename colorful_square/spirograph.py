@@ -19,7 +19,7 @@ def draw_spirogarph(size_of_gap):
         tim.color(random_colors())
         tim.circle(100)
         tim.setheading(tim.heading() +size_of_gap)
-
+z
 draw_spirogarph(5)
 
 
