@@ -2,8 +2,8 @@ from turtle import Turtle, Screen
 
 tim = Turtle()
 tim.penup()
-tim.setheading(250)
-tim.forward(300)
+tim.setheading(225)
+tim.forward(30)
 tim.setheading(0)
 tim.pendown()
 tim.speed('fastest')
@@ -34,6 +34,10 @@ def draw_circle():
 def draw_semi():
     tim.circle(120,180)
 
+def clear_sc():
+    tim.clear()
+    tim.reset()
+    
 
 screen.listen()
 screen.onkey(key='W',fun=move_forward)
@@ -44,4 +48,5 @@ screen.onkey(key='I', fun=left_tilt)
 # screen.onkey(key='J', fun=right_tilt)
 screen.onkey(key='L', fun=draw_circle)
 screen.onkey(key='M', fun=draw_semi)
+screen.onkey(key='C', fun=clear_sc)
 screen.exitonclick()
