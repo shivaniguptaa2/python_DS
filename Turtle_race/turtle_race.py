@@ -3,6 +3,7 @@ import random
 
 screen = Screen()
 screen.setup(500,400)
+screen.title('Welcome to the Turtle Race!')
 is_race_on = False
 # print(user_bet)
 colors = ['red','blue','pink','orange','green','purple']
