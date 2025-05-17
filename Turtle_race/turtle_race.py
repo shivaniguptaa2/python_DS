@@ -34,11 +34,4 @@ while is_race_on:
         rand_move = random.randint(0,10)
         turtle.fd(rand_move) 
 
-
-
-
-
-
-
-
 screen.exitonclick()
