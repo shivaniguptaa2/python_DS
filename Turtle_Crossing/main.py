@@ -34,9 +34,15 @@ while is_game_on:
     car.move_cars()
 
     # detect collision with cars
-    for car in CarManager.all_cars:
-        if player.distance(car)<20 :
+    for car_instance in car.all_cars:
+        if player.distance(car_instance)<20 :
             is_game_on = False
             level.game_over()
+    
+    #completion of levels
+    if player.ycor()>230:
+        player.reset_pos()
+        level.add_level()
+        car.car_speed()
 
 screen.exitonclick()

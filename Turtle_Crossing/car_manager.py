@@ -10,6 +10,7 @@ class CarManager(Turtle):
     def __init__(self):
         super().__init__()
         self.all_cars = []
+        self.new_spd = MOV
     
     def create_cars(self):
         num = random.randint(1,6) 
@@ -24,8 +25,9 @@ class CarManager(Turtle):
     
     def move_cars(self):
         for cars in self.all_cars:
-            cars.backward(MOV)
+            cars.backward(self.new_spd)
 
     def car_speed(self):
-        self.new_spd = MOV + INC
+        self.new_spd += INC
+
         
