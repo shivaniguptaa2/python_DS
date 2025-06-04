@@ -19,6 +19,12 @@
 import pandas
 
 data = pandas.read_csv("CSV/weather_data.csv")
-print(data["temp"])
+# print(data["temp"])
 
+data_dict = data.to_dict()
+# print(data_dict)
+
+temp_list = data_dict["temp"]
+print(sum(temp_list)/len(temp_list))
+print(data_dict["temp"].mean())
 """The number of lines reduced plus the formatting as table is wonderful"""
