@@ -1,4 +1,6 @@
-"""Dictionary comprehension is a method for transforming one dictionary into another dictionary. During this transformation,
+"""
+https://www.datacamp.com/tutorial/python-dictionary-comprehension
+Dictionary comprehension is a method for transforming one dictionary into another dictionary. During this transformation,
  items within the original dictionary can be conditionally
  included in the new dictionary, and each item can be transformed as needed.
  1.Using zip() function
@@ -30,3 +32,19 @@ student_scores = {name:random.randint(1,99) for name in names}
 
 data = pandas.DataFrame(list(student_scores.items()),columns=["name","scores"])
 print(data)
+
+"""Conditional dictionary comprehension
+dict1 = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}
+
+if condition
+# Check for items greater than 2
+dict1_cond = {k:v for (k,v) in dict1.items() if v>2}
+
+Multiple if conditions
+
+dict1_doubleCond = {k:v for (k,v) in dict1.items() if v>2 if v%2 == 0}
+
+"""
+passed_student = {name:score for (name,score) in student_scores.items() if score> 60}
+result = pandas.DataFrame(list(passed_student.items()),columns=["names","score"])
+print(result)
