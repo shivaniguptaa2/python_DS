@@ -41,7 +41,8 @@ new_dict = {
     "Students": ['Shiv','Durga','Raj'],
     "scores":[20,34,56]
 }
-
+print(new_dict)
 new_df = pandas.DataFrame(new_dict)
-new_df.to_csv('CSV/new_csv.csv')
+print(new_df)
+# new_df.to_csv('CSV/new_csv.csv')
 # this to create dataframe from dictionary and converting that to csv file
