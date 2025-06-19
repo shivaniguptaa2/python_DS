@@ -65,9 +65,9 @@ dict1_doubleCond = {k:v for (k,v) in dict1.items() if v>2 if v%2 == 0}
 """
 passed_student = {name:score for (name,score) in student_scores.items() if score> 60}
 result = pandas.DataFrame(list(passed_student.items()),columns=["names","score"])
-print(result)
+# print(result)
 
-"""Looping through DataFrames
+"""Converting Dictionary to Dataframe
  Very important while creating dataframe from list and dictionary, there
  is small transition happen.
 
@@ -135,21 +135,35 @@ Alex	Bhavin	Cathy
 Each row is returned as an (index, Series) pair.
 """
 
-df = pandas.DataFrame({'name': ['shivani', 'syana', 'shri'], 'score': [33, 34, 55]})
+df = pandas.DataFrame({'names': ['shivani', 'syana', 'shri'], 'score': [33, 34, 55]})
 
 for index, row in df.iterrows():
-    print(row['name'], row['score'])
+    # print(row['name'], row['score'])
+    # print(row.score)
+    print(row.name)
+    """This is not printing the name from dataframe but the index, there is reason for this
+    This happens because of how pandas handles attribute access in iterrows():
+
+row['score'] accesses the value in the 'score' column (recommended and always works).
+row.score also works if the column name is a valid Python identifier (no spaces, doesn’t conflict 
+with Series attributes).
+However, for row.name:
+
+In pandas, row.name is a special attribute that returns the row index, 
+not the value from a column named 'name'."""
+
+"""However if you change the column name to student, it will work fine, give it a try!!"""
 
 """2. Iterate over rows with itertuples()
 Faster and returns namedtuples."""
 
-for row in df.itertuples(index=False):
-    print(row.name, row.score)
+# for row in df.itertuples(index=False):
+#     print(row.name, row.score)
 
 """3. Iterate over columns"""
 
-for col in df.columns:
-    print(col)
+# for col in df.columns:
+#     print(col)
 
 
 """Note:
