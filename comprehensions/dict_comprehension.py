@@ -16,8 +16,10 @@ myDict = { k:v for (k,v) in zip(keys, values)}
 print (myDict)
 
  2.Using fromkeys() Method
- dic=dict.fromkeys(range(5), True)
+ Python also offers the fromkeys() method, which allows you to create dictionaries with a uniform value for a specified set
+of keys. This method is useful when initializing dictionaries with default values. 
 
+ dic=dict.fromkeys(range(5), True)
 print(dic)
  
  """
@@ -50,6 +52,7 @@ student_scores = {name:random.randint(40,99) for name in names}
 
 data = pandas.DataFrame(list(student_scores.items()),columns=["name","scores"])
 # print(data)
+
 
 """Conditional dictionary comprehension
 dict1 = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}
@@ -140,7 +143,7 @@ df = pandas.DataFrame({'names': ['shivani', 'syana', 'shri'], 'score': [33, 34, 
 for index, row in df.iterrows():
     # print(row['name'], row['score'])
     # print(row.score)
-    print(row.name)
+    print(row.names)
     """This is not printing the name from dataframe but the index, there is reason for this
     This happens because of how pandas handles attribute access in iterrows():
 
